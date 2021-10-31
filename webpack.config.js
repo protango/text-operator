@@ -2,6 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const keysTransformer = require('ts-transformer-keys/transformer').default;
+const HtmlInlineScriptPlugin = require('html-inline-script-webpack-plugin');
 
 module.exports = {
     mode: 'development',
@@ -25,6 +26,7 @@ module.exports = {
             template: './src/index.html',
             //favicon: "./assets/favicon.ico"
         }),
+        new HtmlInlineScriptPlugin(),
         new MiniCssExtractPlugin()
     ],
     module: {
