@@ -1,8 +1,10 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const keysTransformer = require('ts-transformer-keys/transformer').default;
 const HtmlInlineScriptPlugin = require('html-inline-script-webpack-plugin');
+const HTMLInlineCSSWebpackPlugin = require("html-inline-css-webpack-plugin").default;
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
     mode: 'development',
@@ -20,14 +22,14 @@ module.exports = {
             src: path.resolve(__dirname, 'src')
         }
     },
-    devtool: 'source-map',
+    devtool: 'inline-source-map',
     plugins: [
+        new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
             template: './src/index.html',
             //favicon: "./assets/favicon.ico"
         }),
-        new HtmlInlineScriptPlugin(),
-        new MiniCssExtractPlugin()
+        new HtmlInlineScriptPlugin()
     ],
     module: {
         rules: [{
@@ -42,23 +44,21 @@ module.exports = {
                 })
             }
         }, {
-            test: /\.s[ac]ss$/i,
+            test: /\.css$/i,
             use: [
-              MiniCssExtractPlugin.loader,
-              // Translates CSS into CommonJS
-              'css-loader',
-              // Compiles Sass to CSS
-              'sass-loader',
+                "style-loader",
+                "css-loader",
+                "postcss-loader"
             ],
         }, {
             test: /\.html$/,
             exclude: /node_modules/,
-            use: {loader: 'html-loader'}
+            use: { loader: 'html-loader' }
         },
         {
             test: /\.(png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)(\?.*$|$)/,
             use: {
-                loader: 'file-loader', 
+                loader: 'file-loader',
                 options: {
                     name: "[path][name].[ext]"
                 }
