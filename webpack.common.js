@@ -2,12 +2,9 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const keysTransformer = require('ts-transformer-keys/transformer').default;
 const HtmlInlineScriptPlugin = require('html-inline-script-webpack-plugin');
-const HTMLInlineCSSWebpackPlugin = require("html-inline-css-webpack-plugin").default;
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
-    mode: 'development',
     entry: {
         app: './src/index.ts'
     },
@@ -22,7 +19,6 @@ module.exports = {
             src: path.resolve(__dirname, 'src')
         }
     },
-    devtool: 'inline-source-map',
     plugins: [
         new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
