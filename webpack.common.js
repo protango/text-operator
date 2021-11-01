@@ -1,8 +1,8 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const keysTransformer = require('ts-transformer-keys/transformer').default;
-const HtmlInlineScriptPlugin = require('html-inline-script-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
     entry: {
@@ -20,12 +20,12 @@ module.exports = {
         }
     },
     plugins: [
+        new MiniCssExtractPlugin(),
         new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
             template: './src/index.html',
             //favicon: "./assets/favicon.ico"
-        }),
-        new HtmlInlineScriptPlugin()
+        })
     ],
     module: {
         rules: [{
@@ -42,9 +42,9 @@ module.exports = {
         }, {
             test: /\.css$/i,
             use: [
-                "style-loader",
+                MiniCssExtractPlugin.loader,
                 "css-loader",
-                "postcss-loader"
+                "postcss-loader",
             ],
         }, {
             test: /\.html$/,
